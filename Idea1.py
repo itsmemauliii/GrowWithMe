@@ -62,13 +62,13 @@ with st.container():
                     prompt = f"Personalize the subject lines for {recipient_name}. {prompt}"
                 
                response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # Use "gpt-4" for better quality
-                messages=[
-                    {"role": "system", "content": "You are an expert email marketing assistant."},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=150,
-                temperature=0.7
+                    model="gpt-3.5-turbo",  # Use "gpt-4" for better quality
+                    messages=[
+                        {"role": "system", "content": "You are an expert email marketing assistant."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    max_tokens=150,
+                    temperature=0.7
                 )
                 generated_text = response["choices"][0]["message"]["content"].strip()
 
