@@ -44,36 +44,38 @@ st.image('logo.png', width=150)
 st.title("AI Email Subject Line & Preview Text Generator")
 st.subheader("Boost your email open rates with catchy AI-powered subject lines!")
 
+# OpenAI API Key (Replace with actual key)
+openai.api_key = "your-openai-api-key"
+
 # Main container
 with st.container():
-    openai.api_key = 'Grow With Me'  # Replace this with your actual OpenAI API key
-    
     recipient_name = st.text_input("Enter recipient's name (optional)", "")
     product_description = st.text_area("Enter your product or email description", "")
-    
+
     # Generate Button
     if st.button("Generate Email Subject Lines"):
         if product_description:
             with st.spinner("Generating..."):
+                
                 # OpenAI API call to generate subject lines
                 prompt = f"Create 5 catchy email subject lines and preview text for: {product_description}"
                 if recipient_name:
                     prompt = f"Personalize the subject lines for {recipient_name}. {prompt}"
+
+                client = openai.OpenAI()  # ✅ Use the new API client
                 
-import openai
+                response = client.chat.completions.create(  # ✅ Correct method
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": "You are an expert email marketing assistant."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    max_tokens=150,
+                    temperature=0.7
+                )
 
-client = openai.OpenAI()  # ✅ Use the new API client
-
-response = client.chat.completions.create(  # ✅ Correct method
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are an expert email marketing assistant."},
-        {"role": "user", "content": prompt}
-    ],
-    max_tokens=150,
-    temperature=0.7
-)
-
+                # Extract generated text
+                generated_text = response.choices[0].message.content.strip()
 
                 # Display Results
                 st.success("Here are your AI-generated email subject lines & preview text!")
@@ -100,3 +102,4 @@ with st.sidebar:
 # Footer Text
 st.markdown("---")
 st.caption("© 2025 Grow With Me | Powered by OpenAI")
+
