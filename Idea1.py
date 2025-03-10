@@ -1,145 +1,149 @@
 import streamlit as st
 import openai
-import base64
 
-# ====================== Custom CSS ==========================
+# Set up page configuration
+st.set_page_config(
+    page_title="AI Email Subject Line Generator",
+    page_icon="📧",
+    layout="centered"
+)
+
+# Custom CSS with background, fonts, and animations
 custom_css = """
 <style>
-/* Gradient Background */
-.stApp {
-    background: linear-gradient(135deg, #e0eafc, #cfdef3);
-    color: #333333;
-    font-family: 'Arial', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Open Sans', sans-serif;
 }
 
-/* Titles */
+.stApp {
+    background: linear-gradient(135deg, #eef2f3, #8e9eab);
+    color: #333333;
+    padding: 0;
+}
+
+/* Title */
 h1 {
     color: #0a3871;
     text-align: center;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
-h3 {
+/* Subtitle */
+h3, .stSubheader {
     color: #333333;
     text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
-/* Input box */
+/* Text input box */
 input {
-    background-color: #ffffff;
-    border: 1px solid #0a3871;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    border: 1px solid #0a3871 !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
 }
 
 /* Generate Button */
 div.stButton > button:first-child {
     background-color: #0a3871;
     color: white;
+    font-size: 16px;
+    font-weight: 600;
     border-radius: 8px;
-    padding: 0.6em 2em;
-    transition: background-color 0.3s ease;
+    padding: 0.8em 2.5em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 div.stButton > button:hover {
     background-color: #072f5f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
-/* Result Box */
+/* Output box */
 .stMarkdown {
     background-color: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
+    color: #333333;
+    padding: 20px;
+    font-size: 16px;
+    border-radius: 12px;
     border: 1px solid #dddddd;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Sidebar styling */
+section[data-testid="stSidebar"] {
+    background-color: #1e1e2f;
+}
+
+section[data-testid="stSidebar"] .css-1d391kg {
+    color: #ffffff;
+}
+
+section[data-testid="stSidebar"] .stMarkdown {
+    color: #ffffff;
 }
 
 footer {
     visibility: hidden;
 }
+
 </style>
 """
+
+# Inject custom CSS
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# ====================== Sidebar ==========================
-st.sidebar.title("Grow With Me 🌱")
-st.sidebar.info(
-    """
-    **How to Use:**  
-    - Enter your product description  
-    - Click 'Generate'  
-    - Download your catchy subject lines  
-    """
-)
-st.sidebar.markdown("---")
-st.sidebar.markdown("Made with ❤️ by Grow With Me")
+# Title and Description
+st.title("AI Email Subject Line & Preview Text Generator")
+st.subheader("Boost your email open rates with catchy AI-powered subject lines!")
 
-# ====================== Brand Logo ==========================
-logo_path = "logo.png"  
-try:
-    file_ = open(logo_path, "rb")
-    contents = file_.read()
-    logo_base64 = base64.b64encode(contents).decode("utf-8")
-    st.markdown(
-        f'<div style="text-align:center;"><img src="data:image/png;base64,{logo_base64}" width="150"/></div>',
-        unsafe_allow_html=True
-    )
-except FileNotFoundError:
-    st.warning("No logo found! Upload 'logo.png' to display your brand logo.")
+# OpenAI API Key (Replace with your actual API Key)
+openai.api_key = 'Grow With Me'  # Replace this with your key
 
-# ====================== Main App ==========================
+# Sidebar instructions
+with st.sidebar:
+    st.markdown("## How to Use:")
+    st.markdown("""
+    1. Enter your product description  
+    2. Click **'Generate'**  
+    3. Download your catchy subject lines  
+    """)
+    st.markdown("---")
+    st.markdown("Made with ❤️ by Grow With Me")
 
-# Titles
-st.markdown("<h1>AI Email Subject Line & Preview Text Generator</h1>", unsafe_allow_html=True)
-st.markdown("<h3>Boost your email open rates with catchy AI-powered subject lines!</h3>", unsafe_allow_html=True)
-
-# OpenAI API Key (Replace with your actual key)
-openai.api_key = 'YOUR_OPENAI_API_KEY'
-
-# Input
+# Input Fields
 product_description = st.text_input("Enter your product or email description", "")
 
-generated_text = ""
-
-# Button
+# Generate Button
 if st.button("Generate Email Subject Lines"):
     if product_description:
-        with st.spinner("Generating your email magic..."):
-            try:
-                # OpenAI ChatCompletion API (GPT-3.5 Turbo)
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "user", "content": f"Create 5 persuasive email subject lines and preview text for: {product_description}"}
-                    ],
-                    temperature=0.7,
-                    max_tokens=300
-                )
+        with st.spinner("Generating..."):
+            # OpenAI API call to generate subject lines
+            response = openai.Completion.create(
+                engine="text-davinci-003",
+                prompt=f"Create 5 persuasive email subject lines and preview text for: {product_description}",
+                max_tokens=150,
+                temperature=0.7
+            )
+            generated_text = response.choices[0].text.strip()
 
-                generated_text = response['choices'][0]['message']['content'].strip()
-
-                st.success("✅ Your AI-generated subject lines are ready!")
-                st.markdown(f"<div class='stMarkdown'>{generated_text}</div>", unsafe_allow_html=True)
-
-            except Exception as e:
-                st.error(f"⚠️ Oops! Something went wrong: {e}")
+            # Display Results
+            st.success("Here are your AI-generated email subject lines & previews!")
+            st.markdown(f"```{generated_text}```")
     else:
-        st.warning("⚠️ Please enter your product or email description.")
+        st.warning("Please enter your product description.")
 
-# ====================== Download Button ==========================
-if generated_text:
-    def text_to_download_link(text, filename, label):
-        b64 = base64.b64encode(text.encode()).decode()  # some strings
-        href = f'<a href="data:file/txt;base64,{b64}" download="{filename}">{label}</a>'
-        return href
-
-    st.markdown("---")
-    st.markdown(text_to_download_link(generated_text, "email_subject_lines.txt", "📥 Download as .txt"), unsafe_allow_html=True)
-
-# ====================== Footer ==========================
-st.markdown("""
-<hr style="margin-top:50px;">
-<p style='text-align: center; color: #888888;'>
-    © 2025 Grow With Me | Powered by OpenAI
-</p>
-""", unsafe_allow_html=True)
-
+# Footer
+st.markdown("---")
+st.caption("© 2025 Grow With Me | Powered by OpenAI")
