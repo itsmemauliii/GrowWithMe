@@ -17,6 +17,8 @@ if dark_mode:
     <style>
     .stApp { background-color: #1e1e1e; color: #ffffff; }
     .main-container { background: #2c2c2c; color: #ffffff; }
+    .stSidebar { background-color: #111827 !important; color: #ffffff !important; }
+    .stSidebar h2, .stSidebar p { color: #ffffff !important; }
     input, textarea { background: #333; color: #ffffff !important; }
     div.stButton > button:first-child { background-color: #4f46e5; }
     h1, h2, h3, h4, h5, h6, p, label { color: #ffffff !important; }
@@ -27,6 +29,7 @@ else:
     <style>
     .stApp { background-color: #f9fafb; }
     .main-container { background: white; }
+    .stSidebar { background-color: #f3f4f6 !important; color: #000000 !important; }
     div.stButton > button:first-child { background-color: #2563eb; }
     </style>
     """
@@ -89,5 +92,6 @@ with st.sidebar:
 # Footer Text
 st.markdown("---")
 st.caption("© 2025 Grow With Me | Powered by OpenAI")
+
 
 
