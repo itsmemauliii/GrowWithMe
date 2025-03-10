@@ -18,12 +18,13 @@ if dark_mode:
     .stApp { background-color: #1e1e1e; color: #ffffff; }
     .main-container { background: #2c2c2c; color: #ffffff; }
     .stSidebar { background-color: #111827 !important; color: #ffffff !important; }
-    .stSidebar h2, .stSidebar p { color: #ffffff !important; }
+    .stSidebar h2, .stSidebar p, .stSidebar div, .stSidebar li, .stSidebar span { color: #ffffff !important; }
     input, textarea { background: #333; color: #ffffff !important; }
     div.stButton > button:first-child { background-color: #4f46e5; }
     h1, h2, h3, h4, h5, h6, p, label { color: #ffffff !important; }
     </style>
     """
+
 else:
     custom_css = """
     <style>
