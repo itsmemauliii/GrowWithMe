@@ -19,6 +19,7 @@ if dark_mode:
     .main-container { background: #2c2c2c; color: #ffffff; }
     input, textarea { background: #333; color: #ffffff !important; }
     div.stButton > button:first-child { background-color: #4f46e5; }
+    h1, h2, h3, h4, h5, h6, p, label { color: #ffffff !important; }
     </style>
     """
 else:
@@ -88,4 +89,5 @@ with st.sidebar:
 # Footer Text
 st.markdown("---")
 st.caption("© 2025 Grow With Me | Powered by OpenAI")
+
 
