@@ -52,27 +52,27 @@ with st.container():
     recipient_name = st.text_input("Enter recipient's name (optional)", "")
     product_description = st.text_area("Enter your product or email description", "")
     
-    # Generate Button
-    if st.button("Generate Email Subject Lines"):
-        if product_description:
-            with st.spinner("Generating..."):
-                # OpenAI API call to generate subject lines
-                prompt = f"Create 5 catchy email subject lines and preview text for: {product_description}"
-                if recipient_name:
-                    prompt = f"Personalize the subject lines for {recipient_name}. {prompt}"
-                
-               response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",  # Use "gpt-4" for better quality
-                    messages=[
-                        {"role": "system", "content": "You are an expert email marketing assistant."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    max_tokens=150,
-                    temperature=0.7
-                )
-                generated_text = response["choices"][0]["message"]["content"].strip()
+   # Generate Button
+if st.button("Generate Email Subject Lines"):
+    if product_description:
+        with st.spinner("Generating..."):
+            # OpenAI API call to generate subject lines
+            prompt = f"Create 5 catchy email subject lines and preview text for: {product_description}"
+            if recipient_name:
+                prompt = f"Personalize the subject lines for {recipient_name}. {prompt}"
+            
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",  # Or use "gpt-4" for better quality
+                messages=[
+                    {"role": "system", "content": "You are an expert email marketing assistant."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=150,
+                temperature=0.7
+            )
 
-                
+            generated_text = response["choices"][0]["message"]["content"].strip()  # ✅ Fixed extraction
+
                 # Display Results
                 st.success("Here are your AI-generated email subject lines & preview text!")
                 st.markdown(f"```{generated_text}```")
