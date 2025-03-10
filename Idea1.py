@@ -28,9 +28,10 @@ else:
     custom_css = """
     <style>
     .stApp { background-color: #f9fafb; }
-    .main-container { background: white; }
+    .main-container { background: white; color: #000000; } /* Fix text visibility */
     .stSidebar { background-color: #f3f4f6 !important; color: #000000 !important; }
     div.stButton > button:first-child { background-color: #2563eb; color: #ffffff !important; }
+    h1, h2, h3, h4, h5, h6, p, label { color: #000000 !important; } /* ✅ Ensures text is visible */
     </style>
     """
 
