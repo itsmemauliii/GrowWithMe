@@ -60,17 +60,20 @@ with st.container():
                 if recipient_name:
                     prompt = f"Personalize the subject lines for {recipient_name}. {prompt}"
                 
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",  # Or use "gpt-4" for better quality
-                    messages=[
-                        {"role": "system", "content": "You are an expert email marketing assistant."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    max_tokens=150,
-                    temperature=0.7
-                )
+import openai
 
-                generated_text = response["choices"][0]["message"]["content"].strip()  # ✅ Fixed extraction
+client = openai.OpenAI()  # ✅ Use the new API client
+
+response = client.chat.completions.create(  # ✅ Correct method
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are an expert email marketing assistant."},
+        {"role": "user", "content": prompt}
+    ],
+    max_tokens=150,
+    temperature=0.7
+)
+
 
                 # Display Results
                 st.success("Here are your AI-generated email subject lines & preview text!")
