@@ -10,7 +10,8 @@ from langchain.text_splitter import CharacterTextSplitter
 import os
 
 # Set up OpenAI API key
-openai.api_key = "your_openai_api_key"
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+tavily_api_key = st.secrets["TAVILY_API_KEY"]
 
 # Streamlit UI
 st.set_page_config(page_title="Data Science Chatbot", layout="wide")
