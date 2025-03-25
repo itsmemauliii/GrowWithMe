@@ -38,6 +38,7 @@ retriever = vector_store.as_retriever()
 memory = ConversationBufferMemory(memory_key="chat_history")
 
 qa_chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory)
+python -c "import langchain_openai; print('langchain_openai module is installed!')"
 
 # Chat Interface
 if "messages" not in st.session_state:
